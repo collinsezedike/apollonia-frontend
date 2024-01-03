@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Employee Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#departments">Departments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#staff">Staff</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+
+        <!-- Home Tab Content -->
+        <div id="home" class="tabcontent text-center home">
+            <h2>Welcome to Company Employee Management System</h2>
+        </div>
+
+        <!-- Departments Tab Content -->
+        <div id="departments" class="tabcontent d-none">
+
+            <!-- this is the form to add new department -->
+            <div id="dept-form" class="add-form">
+                <form class="edit-form">
+                    <div class="mb-3">
+                        <label for="departmentName" class="form-label">Add Department Name</label>
+                        <input type="text" class="form-control" id="departmentName">
+                    </div>
+                    <button type="submit" class="btn btn-success">Add</button>
+                    <button id="cancel-dept" class="btn-cancel">X</button>
+                </form>
+            </div>
+
+            <!-- the button that adds new department -->
+            <button id="add-dept" class="add-new">add new department</button>
+        </div>
+        <!-- Repeat for other departments -->
+
+        <!-- Staff Tab Content -->
+        <div id="staff" class="tabcontent d-none">
+
+            <!-- this is the form to add new staff -->
+            <div id="staff-form" class="add-form">
+                <form class="edit-form">
+                    <div class="mb-3">
+                        <label for="departmentName" class="form-label">Add Staff Name</label>
+                        <input type="text" class="form-control" id="departmentName">
+                    </div>
+                    <button type="submit" class="btn btn-success">Add</button>
+                    <button id="cancel-staff" class="btn-cancel">X</button>
+                </form>
+            </div>
+
+            <!-- the button that adds new staff -->
+            <button id="add-staff" class="add-new">add new staff</button>
+        </div>
+        <!-- Repeat for other staff -->
+
+    </div>
+
+    <!-- Bootstrap JS and any custom JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+
+</html>

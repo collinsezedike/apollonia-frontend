@@ -1,0 +1,120 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 150px);
+}
+#departments,
+#staff{
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    
+}
+.card {
+    width: 300px;
+    min-height: 150px;
+    border: none;
+    margin: 20px;
+}
+.card-body {
+    position: relative;
+    width: 300px;
+    min-height: 150px;
+    text-align: center;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+}
+
+.card-front,
+.card-back {
+    justify-content: center;
+    top: 0;
+    left: 0;
+    padding: 2rem 1rem;
+    position: absolute;
+    width: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    transform-origin: center center center;
+}
+
+.card-flipped {
+    transform-origin: center center;
+    transform: rotateY(180deg);
+}
+
+/* styling for the form that adds a new department and staff */
+div.add-form{
+    position: fixed;
+    top: 100vh;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    backdrop-filter: blur(4px) brightness(50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all .9s ease;
+}
+div.add-form form.edit-form{
+    padding: 2rem;
+    border: 2px solid black;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+div.add-form form.edit-form button.btn-cancel{
+    border: none;
+    background-color: rgb(255, 51, 15);
+    color: white;
+    font-size: 25px;
+    padding: 0 15px;
+    font-weight: 900;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+div.add-form form.edit-form label{
+    color: black;
+    font-size: 20px;
+    font-weight: 900;
+    font-family: serif;
+}
+div.add-form form.edit-form input{
+    width: 400px;
+    border: 2px solid black;
+}
+
+/* styling for the button that adds new staff and dept */
+button.add-new{
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 25px;
+    font-weight: 700;
+    text-transform: capitalize;
+    padding: 15px;
+    position: fixed;
+    bottom: 50px;
+    right: 40px;
+    z-index: 2;
+
+}
+button.add-new:hover{
+    background-color: #0d5ed7;
+}
