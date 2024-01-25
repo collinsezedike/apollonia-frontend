@@ -1,6 +1,7 @@
 // scripts.js
 const deptContainer = document.getElementById('departments')
 const staffContainer = document.getElementById('staff')
+const addNewStaff = document.getElementById('add-new-staff')
 
 //this are the event listeners for the department section
 const addDept = document.getElementById('add-dept')
@@ -108,74 +109,104 @@ function close_sidebar() {
 
 async function fetchData() {
   try {
-    const deptData = await fetch('http://localhost:5000/api/v1/departments');
-    const staffData = await fetch('http://localhost:5000/api/v1/staffs');
+    const deptData = await fetch('https://apollonia.onrender.com/api/v1/departments/');
+    const staffData = await fetch('https://apollonia.onrender.com/api/v1/staffs/');
     const deptJson = await deptData.json();
-    const staffjson = await staffData.json();
-    deptJson.data.forEach((dept)=>{
-      // Create a new card element
-      const card = document.createElement("div");
-      card.classList.add("card");
-      // Append content to the card
-      card.innerHTML = 
-      `
+    const staffJson = await staffData.json();
+    if(deptJson.data.length < 1){
+        // Create a new card element
+        const card = document.createElement("p");
+        card.classList.add("no-info");
+        // Append content to the card
+        card.innerHTML = 
+        `<p> No Department Found </p>`
+        // Append the newly created p to the container
+        deptContainer.appendChild(card);
+    }
+    else{
+      deptJson.data.forEach((dept)=>{
+        // Create a new card element
+        const card = document.createElement("div");
+        card.classList.add("card");
+        // Append content to the card
+        card.innerHTML = 
+        `
         <div class="card-body">
-          <div class="card-front">
-            <h5 class="card-title">${dept.name}</h5>
-            <h5 class="card-title">Staff: ${dept.staff_count}</h5>
-            <button class="btn btn-primary edit-btn">Edit Department Name</button>
-          </div>
-          <div class="card-back">
-            <!-- Form for editing department name -->
-            <form class="edit-form">
-              <div class="mb-3">
-                <label for="departmentName" class="form-label">New Department Name</label>
-                <input type="text" class="form-control" id="departmentName">
-              </div>
-              <button type="submit" class="btn btn-success">Save</button>
-              <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
-            </form>
-          </div>
-        </div>  
-      `
-      // Append the newly created card to the container
-      deptContainer.appendChild(card);
-      editToggle()
-      cancelToggle()
-    })
-
-    staffjson.data.forEach((staff)=>{
-      // Create a new card element
-      const card = document.createElement("div");
-      card.classList.add("card");
-      // Append content to the card
-      card.innerHTML = 
-      `
-        <div class="card-body">
-          <div class="card-front">
-            <h5 class="card-title">${staff.name} ${staff.surname}</h5>
-            <button class="btn btn-primary edit-btn">Edit Staff Name</button>
-          </div>
-          <div class="card-back">
-            <!-- Form for editing staff name -->
-            <form class="edit-form">
-              <div class="mb-3">
-                <label for="staffName" class="form-label">New Staff Name</label>
-                <input type="text" class="form-control" id="staffName">
-              </div>
-              <button type="submit" class="btn btn-success">Save</button>
-              <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
-            </form>
-          </div>
+        <div class="card-front">
+        <h5 class="card-title">${dept.name}</h5>
+        <h5 class="card-title">Staff: ${dept.staff_count}</h5>
+        <button class="btn btn-primary edit-btn">Edit Department Name</button>
         </div>
-      `
-      // Append the newly created card to the container
+        <div class="card-back">
+        <!-- Form for editing department name -->
+        <form class="edit-form">
+        <div class="mb-3">
+        <label for="departmentName" class="form-label">New Department Name</label>
+        <input type="text" class="form-control" id="departmentName">
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+        </form>
+        </div>
+        </div>  
+        `
+        // Append the newly created card to the container
+        deptContainer.appendChild(card);
+        editToggle()
+        cancelToggle()
+      })
+    }
+
+    if(staffJson.data.length < 1){
+      // Create a new card element
+      const card = document.createElement("p");
+      card.classList.add("no-info");
+      // Append content to the card
+      card.innerHTML = 
+      `<p>No Staff Found </p>`
+      // Append the newly created p to the container
       staffContainer.appendChild(card);
-      editToggle()
-      cancelToggle()
-    })
+    }
+    else{
+      staffJson.data.forEach((staff)=>{
+        // Create a new card element
+        const card = document.createElement("div");
+        card.classList.add("card");
+        // Append content to the card
+        card.innerHTML = 
+        `
+        <div class="card-body">
+        <div class="card-front">
+        <h5 class="card-title">${staff.name} ${staff.surname}</h5>
+        <button class="btn btn-primary edit-btn">Edit Staff Name</button>
+        </div>
+        <div class="card-back">
+        <!-- Form for editing staff name -->
+        <form class="edit-form">
+        <div class="mb-3">
+        <label for="staffName" class="form-label">New Staff Name</label>
+        <input type="text" class="form-control" id="staffName">
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+        </form>
+        </div>
+        </div>
+        `
+        // Append the newly created card to the container
+        staffContainer.appendChild(card);
+        editToggle()
+        cancelToggle()
+      })
+    }
   } catch (error) {
     console.error('Fetch error:', error);
   }
 }
 fetchData()
+
+//this function adds new staff
+addNewStaff.addEventListener('submit',(e)=>{
+  e.preventDefault()
+
+})
