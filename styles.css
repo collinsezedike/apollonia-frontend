@@ -11,8 +11,8 @@
 }
 #departments,
 #staff{
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
-    flex-wrap: wrap;
     justify-content: space-evenly;
     
 }

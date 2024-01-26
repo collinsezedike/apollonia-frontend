@@ -1,6 +1,7 @@
 // scripts.js
 const deptContainer = document.getElementById('departments')
 const staffContainer = document.getElementById('staff')
+const addNewDept = document.getElementById('add-new-dept')
 const addNewStaff = document.getElementById('add-new-staff')
 
 //this are the event listeners for the department section
@@ -38,11 +39,11 @@ function openTab(evt, tabName) {
   // Hide all tab content
   tabcontent = document.querySelectorAll(".tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = "none"
   }
 
   // Display the selected tab content and set 'active' class to the clicked tab link
-  document.getElementById(tabName).style.display = "flex";
+  document.getElementById(tabName).style.display = 'grid';
   document.getElementById(tabName).classList.remove("d-none");
 }
 
@@ -118,8 +119,7 @@ async function fetchData() {
         const card = document.createElement("p");
         card.classList.add("no-info");
         // Append content to the card
-        card.innerHTML = 
-        `<p> No Department Found </p>`
+        card.innerHTML = `<p> No Department Found </p>`
         // Append the newly created p to the container
         deptContainer.appendChild(card);
     }
@@ -134,7 +134,7 @@ async function fetchData() {
         <div class="card-body">
         <div class="card-front">
         <h5 class="card-title">${dept.name}</h5>
-        <h5 class="card-title">Staff: ${dept.staff_count}</h5>
+        <h5 class="card-title">Staff: ${dept.staff_count == undefined ? '0' : dept.staff_count}</h5>
         <button class="btn btn-primary edit-btn">Edit Department Name</button>
         </div>
         <div class="card-back">
@@ -162,8 +162,7 @@ async function fetchData() {
       const card = document.createElement("p");
       card.classList.add("no-info");
       // Append content to the card
-      card.innerHTML = 
-      `<p>No Staff Found </p>`
+      card.innerHTML = `<p>No Staff Found </p>`
       // Append the newly created p to the container
       staffContainer.appendChild(card);
     }
@@ -205,8 +204,28 @@ async function fetchData() {
 }
 fetchData()
 
-//this function adds new staff
-addNewStaff.addEventListener('submit',(e)=>{
+//this function adds new dept
+addNewDept.addEventListener('submit',async(e)=>{
   e.preventDefault()
+  const name = document.getElementById('department-name').value
 
+  const URL = 'https://apollonia.onrender.com/api/v1/departments/';
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({name})
+  }
+
+  try {
+    // Make the post request
+    await fetch(URL, options)
+
+    window.location.reload()
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error('Error:', error.message);
+  }
 })
