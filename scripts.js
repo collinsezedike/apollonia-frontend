@@ -3,6 +3,7 @@ const deptContainer = document.getElementById('departments')
 const staffContainer = document.getElementById('staff')
 const addNewDept = document.getElementById('add-new-dept')
 const addNewStaff = document.getElementById('add-new-staff')
+const deptOption = document.getElementById('dept-option')
 
 //this are the event listeners for the department section
 const addDept = document.getElementById('add-dept')
@@ -82,6 +83,7 @@ const editToggle = ()=>{
     });
   }
 }
+editToggle()
 // Function to cancel editing and flip back to the card
 const cancelToggle = ()=>{
   var cancelBtns = document.querySelectorAll('.cancel-btn');
@@ -94,7 +96,7 @@ const cancelToggle = ()=>{
     });
   }
 }
-
+cancelToggle()
 function open_sidebar() {
   document.getElementById("main").style.marginLeft = "35%";
   document.getElementById("side-bar").style.width = "30%";
@@ -154,6 +156,17 @@ async function fetchData() {
         deptContainer.appendChild(card);
         editToggle()
         cancelToggle()
+      })
+
+      deptJson.data.forEach((dept)=>{
+        // Create a the department option
+        const option = document.createElement("option")
+        option.classList.add("dept-option")
+        option.setAttribute('value',dept._id)
+        // Append content to the the select 
+        option.innerText = dept.name
+        // Append the newly created child
+        deptOption.appendChild(option)
       })
     }
 
@@ -217,6 +230,41 @@ addNewDept.addEventListener('submit',async(e)=>{
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({name})
+  }
+
+  try {
+    // Make the post request
+    await fetch(URL, options)
+
+    window.location.reload()
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error('Error:', error.message);
+  }
+})
+
+//this function adds new staff
+addNewStaff.addEventListener('submit',async(e)=>{
+  e.preventDefault()
+  const name = document.getElementById('staff-first-name').value
+  const surname = document.getElementById('staff-surname').value
+  const deptId = document.getElementById('dept-option').value
+  console.log(deptId)
+
+  const URL = 'https://apollonia.onrender.com/api/v1/staffs/';
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(
+      {
+        name,
+        surname,
+        department_id:deptId
+      }
+    )
   }
 
   try {

@@ -79,45 +79,62 @@ div.add-form{
 div.add-form form.edit-form{
     padding: 2rem;
     border: none;
-    position: relative;
     overflow: hidden;
     background-color: white;
 }
-div.add-form form.edit-form button.btn-cancel{
+div.add-form form.edit-form div.buttons-div{
+    display: flex;
+    justify-content: space-between;
+}
+form.edit-form div.buttons-div button.btn-success{
     border: none;
-    background-color: rgb(255, 51, 15);
-    color: white;
+    color: black;
     font-size: 25px;
     padding: 0 15px;
-    font-weight: 900;
-    position: absolute;
-    top: 0;
-    right: 0;
+    width: 49%;
+    background-color: #0d5ed7;
+}
+form.edit-form div.buttons-div button.btn-cancel{
+    border: none;
+    background-color: rgb(255, 51, 15);
+    color: black;
+    font-size: 25px;
+    padding: 0 15px;
+    width: 49%;
 }
 div.add-form form.edit-form label{
     color: black;
     font-size: 20px;
     font-weight: 900;
     font-family: serif;
+    margin: 10px 0 0 0;
 }
 div.add-form form.edit-form input{
     width: 250px;
     border: 1px solid black;
+    border-radius: 0;
+}
+div.add-form form.edit-form select{
+    display: block  ;
+    width: 250px;
+    border: 1px solid black;
+    border-radius: 0;
 }
 
 /* styling for the button that adds new staff and dept */
 button.add-new{
     border: none;
-    border-radius: 10px;
+    border-radius: 50%;
     position: fixed;
     bottom: 50px;
     right: 100px;
+    overflow: hidden;
     z-index: 2;
 }
 button.add-new img{
     background-color: white;
     width: 80px; 
 }
-button.add-new:hover{
+button.add-new img:hover{
     background-color: #0d5ed7;
 }

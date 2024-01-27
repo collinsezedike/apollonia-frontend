@@ -52,8 +52,10 @@
                         <label for="departmentName" class="form-label">Add Department Name</label>
                         <input type="text" class="form-control" id="department-name" />
                     </div>
-                    <button type="submit" class="btn btn-success">Add</button>
-                    <button id="cancel-dept" class="btn-cancel">X</button>
+                    <div class="buttons-div">
+                        <button type="submit" class="btn-success">Add</button>
+                        <button id="cancel-dept" class="btn-cancel">Cancel</button>
+                    </div>
                 </form>
             </div>
 
@@ -71,11 +73,19 @@
             <div id="staff-form" class="add-form">
                 <form class="edit-form" id="add-new-staff">
                     <div class="mb-3">
-                        <label for="departmentName" class="form-label">Add Staff Name</label>
-                        <input type="text" class="form-control" id="staff-name">
+                        <label for="departmentName">first Name</label>
+                        <input type="text" class="form-control" id="staff-first-name" placeholder="Enter your first name">
+                        <label for="departmentName">Surname</label>
+                        <input type="text" class="form-control" id="staff-surname" placeholder="Enter your surname">
+                        <label for="departmentName">Department</label>
+                        <select name="department-id" id="dept-option">
+                            <!-- will be added dynamically in the javascript -->
+                        </select>
                     </div>
-                    <button class="btn btn-success">Add</button>
-                    <button id="cancel-staff" class="btn-cancel">X</button>
+                    <div class="buttons-div">
+                        <button type="submit" class="btn-success">Add</button>
+                        <button id="cancel-staff" class="btn-cancel">cancel</button>
+                    </div>
                 </form>
             </div>
 
