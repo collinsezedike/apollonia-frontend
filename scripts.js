@@ -1,6 +1,9 @@
 // scripts.js
 const deptContainer = document.getElementById('departments')
 const staffContainer = document.getElementById('staff')
+const addNewDept = document.getElementById('add-new-dept')
+const addNewStaff = document.getElementById('add-new-staff')
+const deptOption = document.getElementById('dept-option')
 
 //this are the event listeners for the department section
 const addDept = document.getElementById('add-dept')
@@ -12,7 +15,7 @@ addDept.addEventListener('click',()=>{
 })
 cancelDept.addEventListener('click',(e)=>{
   e.preventDefault()
-  deptForm.style.top = '100vh'
+  deptForm.style.top = '1000vh'
   deptForm.style.left = 0
 })
 
@@ -26,7 +29,7 @@ addStaff.addEventListener('click',()=>{
 })
 cancelStaff.addEventListener('click',(e)=>{
   e.preventDefault()
-  staffForm.style.top = '100vh'
+  staffForm.style.top = '1000vh'
   staffForm.style.left = 0
 })
 
@@ -37,60 +40,22 @@ function openTab(evt, tabName) {
   // Hide all tab content
   tabcontent = document.querySelectorAll(".tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = "none"
   }
 
   // Display the selected tab content and set 'active' class to the clicked tab link
-  document.getElementById(tabName).style.display = "flex";
-  document.getElementById(tabName).classList.remove("d-none");
+  document.getElementById(tabName).style.display = 'grid'
+  document.getElementById(tabName).classList.remove("d-none")
 }
 
 // Get all elements with class=".nav-link" and attach a click event listener
-var tabLinks = document.querySelectorAll(".nav-link");
+var tabLinks = document.querySelectorAll(".nav-link")
 for (var i = 0; i < tabLinks.length; i++) {
   tabLinks[i].addEventListener("click", function(event) {
-    event.preventDefault();
-    var tabName = this.getAttribute("href").substring(1);
-    openTab(event, tabName);
-  });
-}
-
-// staffContainer.addEventListener('click', function(event) {
-//   if (event.target.classList.contains('edit-btn')) {
-//     // Handle edit button click here
-//     const card = event.target.closest('.card');
-//     if (card) {
-//       editToggle()
-//       console.log('Edit clicked for card:', card);
-//     }
-//   }
-// });
-
-// Function to toggle between card and form on "Edit" button click
-const editToggle = ()=>{
-  var editBtns = document.querySelectorAll('.edit-btn');
-  for (let i = 0; i < editBtns.length; i++) {
-    editBtns[i].addEventListener('click', function() {
-      var cardBody = this.parentElement;
-      var card = cardBody.parentElement;
-      var editForm = cardBody.querySelector('.edit-form');
-      card.classList.add('card-flipped');
-      editForm.classList.remove('d-none');
-      // editForm.classList.add('d-block');
-    });
-  }
-}
-// Function to cancel editing and flip back to the card
-const cancelToggle = ()=>{
-  var cancelBtns = document.querySelectorAll('.cancel-btn');
-  for (let j = 0; j < cancelBtns.length; j++) {
-    cancelBtns[j].addEventListener('click', function() {
-      var editForm = this.parentElement;
-      var cardBody = editForm.parentElement;
-      var card = cardBody.parentElement;
-      card.classList.remove('card-flipped');
-    });
-  }
+    event.preventDefault()
+    var tabName = this.getAttribute("href").substring(1)
+    openTab(event, tabName)
+  })
 }
 
 function open_sidebar() {
@@ -108,74 +73,181 @@ function close_sidebar() {
 
 async function fetchData() {
   try {
-    const deptData = await fetch('http://localhost:5000/api/v1/departments');
-    const staffData = await fetch('http://localhost:5000/api/v1/staffs');
+    const deptData = await fetch('https://apollonia.onrender.com/api/v1/departments/');
+    const staffData = await fetch('https://apollonia.onrender.com/api/v1/staffs/');
     const deptJson = await deptData.json();
-    const staffjson = await staffData.json();
-    deptJson.data.forEach((dept)=>{
+    const staffJson = await staffData.json();
+    if(deptJson.data.length < 1){
+        // Create a new card element
+        const card = document.createElement("p");
+        card.classList.add("no-info");
+        // Append content to the card
+        card.innerHTML = `<p> No Department Found </p>`
+        // Append the newly created p to the container
+        deptContainer.appendChild(card);
+    }
+    else{
+      deptJson.data.forEach((dept)=>{
+        // Create a new card element
+        const card = document.createElement("div");
+        card.classList.add("card");
+        // Append content to the card
+        card.innerHTML = 
+        `
+          <h5 >${dept.name}</h5>
+          <h5>Staff: ${dept.staff_count == undefined ? '0' : dept.staff_count}</h5>
+          <div class="card-buttons-div">
+            <button id=${dept._id} class="edit-dept-btn btn-edit">Edit</button>
+            <button id=${dept._id} class="btn-delete">
+              <img src="./img/bx-trash.png" />
+            </button>
+          </div>
+        `
+        // Append the newly created card to the container
+        deptContainer.appendChild(card);
+      })
+
+      deptJson.data.forEach((dept)=>{
+        // Create a the department option
+        const option = document.createElement("option")
+        option.classList.add("dept-option")
+        option.setAttribute('value',dept._id)
+        // Append content to the the select 
+        option.innerText = dept.name
+        // Append the newly created child
+        deptOption.appendChild(option)
+      })
+    }
+
+    if(staffJson.data.length < 1){
       // Create a new card element
-      const card = document.createElement("div");
-      card.classList.add("card");
+      const card = document.createElement("p");
+      card.classList.add("no-info");
       // Append content to the card
-      card.innerHTML = 
-      `
-        <div class="card-body">
-          <div class="card-front">
-            <h5 class="card-title">${dept.name}</h5>
-            <h5 class="card-title">Staff: ${dept.staff_count}</h5>
-            <button class="btn btn-primary edit-btn">Edit Department Name</button>
+      card.innerHTML = `<p>No Staff Found </p>`
+      // Append the newly created p to the container
+      staffContainer.appendChild(card);
+    }
+    else{
+      staffJson.data.forEach((staff)=>{
+        // Create a new card element
+        const card = document.createElement("div");
+        card.classList.add("card");
+        // Append content to the card
+        card.innerHTML = 
+        `
+          <h5 class="card-title">${staff.name} ${staff.surname}</h5>
+          <div class="card-buttons-div">
+            <button id=${staff._id} class="edit-staff-btn btn-edit">Edit</button>
+            <button id=${staff._id} class="btn-delete">
+              <img src="./img/bx-trash.png" />
+            </button>
           </div>
-          <div class="card-back">
-            <!-- Form for editing department name -->
-            <form class="edit-form">
-              <div class="mb-3">
-                <label for="departmentName" class="form-label">New Department Name</label>
-                <input type="text" class="form-control" id="departmentName">
-              </div>
-              <button type="submit" class="btn btn-success">Save</button>
-              <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
-            </form>
-          </div>
-        </div>  
-      `
-      // Append the newly created card to the container
-      deptContainer.appendChild(card);
-      editToggle()
-      cancelToggle()
+        `
+        // Append the newly created card to the container
+        staffContainer.appendChild(card);
+      })
+    }
+
+    //this are the event listeners for the edit of the department section
+    const editDeptBtn = document.getElementsByClassName('edit-dept-btn')
+    const editDeptForm = document.getElementById('edit-dept-form')
+    const cancelEditDept = document.getElementById('cancel-edit-dept')
+
+    Array.from(editDeptBtn).forEach((dept)=>{
+      dept.addEventListener('click',()=>{
+        console.log('clicking')
+        editDeptForm.style.top = 0
+        editDeptForm.style.left = 0
+      })
+    })
+    cancelEditDept.addEventListener('click',(e)=>{
+      e.preventDefault()
+      editDeptForm.style.top = '1000vh'
+      editDeptForm.style.left = 0
     })
 
-    staffjson.data.forEach((staff)=>{
-      // Create a new card element
-      const card = document.createElement("div");
-      card.classList.add("card");
-      // Append content to the card
-      card.innerHTML = 
-      `
-        <div class="card-body">
-          <div class="card-front">
-            <h5 class="card-title">${staff.name} ${staff.surname}</h5>
-            <button class="btn btn-primary edit-btn">Edit Staff Name</button>
-          </div>
-          <div class="card-back">
-            <!-- Form for editing staff name -->
-            <form class="edit-form">
-              <div class="mb-3">
-                <label for="staffName" class="form-label">New Staff Name</label>
-                <input type="text" class="form-control" id="staffName">
-              </div>
-              <button type="submit" class="btn btn-success">Save</button>
-              <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
-            </form>
-          </div>
-        </div>
-      `
-      // Append the newly created card to the container
-      staffContainer.appendChild(card);
-      editToggle()
-      cancelToggle()
+    //this are the event listeners for the edit of the staff section
+    const editStaff = document.getElementsByClassName('edit-staff-btn')
+    const editStaffForm = document.getElementById('edit-staff-form')
+    const cancelEditStaff = document.getElementById('cancel-edit-staff')
+
+    Array.from(editStaff).forEach((staff)=>{
+      staff.addEventListener('click',()=>{
+        editStaffForm.style.top = 0
+        editStaffForm.style.left = 0
+      })
     })
+
+    cancelEditStaff.addEventListener('click',(e)=>{
+      e.preventDefault()
+      editStaffForm.style.top = '1000vh'
+      editStaffForm.style.left = 0
+    })
+
   } catch (error) {
     console.error('Fetch error:', error);
   }
 }
 fetchData()
+
+//this function adds new dept
+addNewDept.addEventListener('submit',async(e)=>{
+  e.preventDefault()
+  const name = document.getElementById('department-name').value
+
+  const URL = 'https://apollonia.onrender.com/api/v1/departments/';
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({name})
+  }
+
+  try {
+    // Make the post request
+    await fetch(URL, options)
+
+    window.location.reload()
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error('Error:', error.message);
+  }
+})
+
+//this function adds new staff
+addNewStaff.addEventListener('submit',async(e)=>{
+  e.preventDefault()
+  const name = document.getElementById('staff-first-name').value
+  const surname = document.getElementById('staff-surname').value
+  const deptId = document.getElementById('dept-option').value
+  console.log(deptId)
+
+  const URL = 'https://apollonia.onrender.com/api/v1/staffs/';
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(
+      {
+        name,
+        surname,
+        department_id:deptId
+      }
+    )
+  }
+
+  try {
+    // Make the post request
+    await fetch(URL, options)
+
+    window.location.reload()
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error('Error:', error.message);
+  }
+})
