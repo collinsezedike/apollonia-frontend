@@ -35,7 +35,7 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container mt-4">
+    <div>
 
         <!-- Home Tab Content -->
         <div id="home" class="tabcontent text-center home">
@@ -48,9 +48,9 @@
             <!-- this is the form to add new department -->
             <div id="dept-form" class="add-form">
                 <form class="edit-form" id="add-new-dept">
+                    <h5>Add New Department</h5>
                     <div class="mb-3">
-                        <label for="departmentName" class="form-label">Add Department Name</label>
-                        <input type="text" class="form-control" id="department-name" />
+                        <input type="text" id="department-name" placeholder="Department name"/>
                     </div>
                     <div class="buttons-div">
                         <button type="submit" class="btn-success">Add</button>
@@ -59,9 +59,23 @@
                 </form>
             </div>
 
+            <!-- this is the form to edit department data -->
+            <div id="edit-dept-form" class="add-form">
+                <form class="edit-form" id="edit-dept">
+                    <h5>Edit Department Data</h5>
+                    <div class="mb-3">
+                        <input type="text" id="department-name" placeholder="Department name"/>
+                    </div>
+                    <div class="buttons-div">
+                        <button type="submit" class="btn-success">Add</button>
+                        <button id="cancel-edit-dept" class="btn-cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
             <!-- the button that adds new department -->
             <button id="add-dept" class="add-new">
-                <img src="./img/add.png" alt="">
+                <img src="./img/bx-plus.png" alt="">
             </button>
         </div>
         <!-- Repeat for other departments -->
@@ -72,26 +86,42 @@
             <!-- this is the form to add new staff -->
             <div id="staff-form" class="add-form">
                 <form class="edit-form" id="add-new-staff">
-                    <div class="mb-3">
-                        <label for="departmentName">first Name</label>
-                        <input type="text" class="form-control" id="staff-first-name" placeholder="Enter your first name">
-                        <label for="departmentName">Surname</label>
-                        <input type="text" class="form-control" id="staff-surname" placeholder="Enter your surname">
-                        <label for="departmentName">Department</label>
+                    <h5>Add New Staff</h5>
+                    <div class="new-staff">
+                        <input type="text" id="staff-first-name" placeholder="First name">
+                        <input type="text" id="staff-surname" placeholder="Surname">
                         <select name="department-id" id="dept-option">
                             <!-- will be added dynamically in the javascript -->
                         </select>
                     </div>
                     <div class="buttons-div">
                         <button type="submit" class="btn-success">Add</button>
-                        <button id="cancel-staff" class="btn-cancel">cancel</button>
+                        <button id="cancel-staff" class="btn-cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- this is the form to edit staff data -->
+            <div id="edit-staff-form" class="add-form">
+                <form class="edit-form" id="edit-staff">
+                    <h5>Edit Staff Data</h5>
+                    <div class="new-staff">
+                        <input type="text" id="edit-staff-first-name" placeholder="First name">
+                        <input type="text" id="edit-staff-surname" placeholder="Surname">
+                        <select name="department-id" id="edit-dept-option">
+                            <!-- will be added dynamically in the javascript -->
+                        </select>
+                    </div>
+                    <div class="buttons-div">
+                        <button type="submit" class="btn-success">Add</button>
+                        <button id="cancel-edit-staff" class="btn-cancel">Cancel</button>
                     </div>
                 </form>
             </div>
 
             <!-- the button that adds new staff -->
             <button id="add-staff" class="add-new">
-                <img src="./img/add.png" alt=""> 
+                <img src="./img/bx-plus.png" alt=""> 
             </button>
         </div>
         <!-- Repeat for other staff -->
