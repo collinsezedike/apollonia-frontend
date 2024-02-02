@@ -12,11 +12,13 @@ const cancelDept = document.getElementById('cancel-dept')
 addDept.addEventListener('click',()=>{
   deptForm.style.top = 0
   deptForm.style.left = 0  
+  deptForm.style.opacity = 1  
 })
 cancelDept.addEventListener('click',(e)=>{
   e.preventDefault()
-  deptForm.style.top = '1000vh'
+  deptForm.style.top = '100vh'
   deptForm.style.left = 0
+  deptForm.style.opacity = 0
 })
 
 //this are the event listeners for the staff section
@@ -26,11 +28,13 @@ const cancelStaff = document.getElementById('cancel-staff')
 addStaff.addEventListener('click',()=>{
   staffForm.style.top = 0
   staffForm.style.left = 0
+  staffForm.style.opacity = 1
 })
 cancelStaff.addEventListener('click',(e)=>{
   e.preventDefault()
-  staffForm.style.top = '1000vh'
+  staffForm.style.top = '100vh'
   staffForm.style.left = 0
+  staffForm.style.opacity = 0
 })
 
 // Function to show the selected tab content and hide others
@@ -156,7 +160,7 @@ async function fetchData() {
 
     Array.from(editDeptBtn).forEach((dept)=>{
       dept.addEventListener('click',()=>{
-        console.log('clicking')
+        console.log(editDeptForm)
         editDeptForm.style.top = 0
         editDeptForm.style.left = 0
       })
