@@ -161,6 +161,9 @@ button.add-new img{
 button.add-new:hover{
     transform: scale(1.25);
 }
+span{
+    text-transform: capitalize;
+}
 
 @media (max-width:770px) {
     button.add-new{
@@ -173,6 +176,9 @@ button.add-new:hover{
     }
     form.edit-form{
         padding: 3rem;
+    }
+    #delete-dept-form form.edit-form{
+        width: 450px;
     }
     form.edit-form input{
         width: 450px;
@@ -195,6 +201,9 @@ button.add-new:hover{
     }
     form.edit-form{
         padding: 1.2rem;
+    }
+    #delete-dept-form form.edit-form{
+        width: 300px;
     }
     form.edit-form input{
         width: 300px;

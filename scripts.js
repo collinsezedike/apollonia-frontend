@@ -4,6 +4,8 @@ const staffContainer = document.getElementById('staff')
 const addNewDept = document.getElementById('add-new-dept')
 const addNewStaff = document.getElementById('add-new-staff')
 const deptOption = document.getElementById('dept-option')
+const deleteDeptName = document.getElementById('delete-dept-name')
+const editDeptName = document.getElementById('edit-dept-name')
 
 //this are the event listeners for the department section
 const addDept = document.getElementById('add-dept')
@@ -101,8 +103,8 @@ async function fetchData() {
           <h5 >${dept.name}</h5>
           <h5>Staff: ${dept.staff_count == undefined ? '0' : dept.staff_count}</h5>
           <div class="card-buttons-div">
-            <button id=${dept._id} class="edit-dept-btn btn-edit">Edit</button>
-            <button id=${dept._id} class="btn-delete">
+            <button id=${dept._id} name= ${dept.name} class="edit-dept-btn btn-edit">Edit</button>
+            <button id=${dept._id} name= ${dept.name} class="delete-dept-btn btn-delete">
               <img src="./img/bx-trash.png" />
             </button>
           </div>
@@ -125,18 +127,18 @@ async function fetchData() {
 
     if(staffJson.data.length < 1){
       // Create a new card element
-      const card = document.createElement("p");
-      card.classList.add("no-info");
+      const card = document.createElement("p")
+      card.classList.add("no-info")
       // Append content to the card
       card.innerHTML = `<p>No Staff Found </p>`
       // Append the newly created p to the container
-      staffContainer.appendChild(card);
+      staffContainer.appendChild(card)
     }
     else{
       staffJson.data.forEach((staff)=>{
         // Create a new card element
-        const card = document.createElement("div");
-        card.classList.add("card");
+        const card = document.createElement("div")
+        card.classList.add("card")
         // Append content to the card
         card.innerHTML = 
         `
@@ -162,12 +164,31 @@ async function fetchData() {
       dept.addEventListener('click',()=>{
         editDeptForm.style.visibility = 'visible'
         editDeptForm.style.opacity = 1
+        editDeptName.innerText = `"${dept.getAttribute('name')}" `
       })
     })
     cancelEditDept.addEventListener('click',(e)=>{
       e.preventDefault()
       editDeptForm.style.opacity = 0
       editDeptForm.style.visibility = 'hidden'
+    })
+
+    //this are the event listeners for the delete of the department section
+    const deleteDeptBtn = document.getElementsByClassName('delete-dept-btn')
+    const deleteDeptForm = document.getElementById('delete-dept-form')
+    const cancelDeleteDept = document.getElementById('cancel-delete-dept')
+
+    Array.from(deleteDeptBtn).forEach((dept)=>{
+      dept.addEventListener('click',()=>{
+        deleteDeptForm.style.visibility = 'visible'
+        deleteDeptForm.style.opacity = 1
+        deleteDeptName.innerText =`"${dept.getAttribute('name')}" `
+      })
+    })
+    cancelDeleteDept.addEventListener('click',(e)=>{
+      e.preventDefault()
+      deleteDeptForm.style.opacity = 0
+      deleteDeptForm.style.visibility = 'hidden'
     })
 
     //this are the event listeners for the edit of the staff section

@@ -62,13 +62,24 @@
             <!-- this is the form to edit department data -->
             <div id="edit-dept-form" class="edit-form-div">
                 <form class="edit-form" id="edit-dept">
-                    <h5>Edit Department</h5>
+                    <h5>Edit <span id="edit-dept-name"></span> Department</h5>
                     <div class="mb-3">
                         <input type="text" id="department-name" placeholder="Department name"/>
                     </div>
                     <div class="buttons-div">
                         <button type="submit" class="btn-success">Edit</button>
                         <button id="cancel-edit-dept" class="btn-cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- this is the form to delete department data -->
+            <div id="delete-dept-form" class="edit-form-div">
+                <form class="edit-form" id="delete-dept">
+                    <h5>Are You Sure You Want To Delete <span id="delete-dept-name"></span> Department</h5>
+                    <div class="buttons-div">
+                        <button type="submit" class="btn-cancel">Delete</button>
+                        <button id="cancel-delete-dept" class="btn-success">Cancel</button>
                     </div>
                 </form>
             </div>
