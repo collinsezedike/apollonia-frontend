@@ -160,15 +160,14 @@ async function fetchData() {
 
     Array.from(editDeptBtn).forEach((dept)=>{
       dept.addEventListener('click',()=>{
-        console.log(editDeptForm)
-        editDeptForm.style.top = 0
-        editDeptForm.style.left = 0
+        editDeptForm.style.visibility = 'visible'
+        editDeptForm.style.opacity = 1
       })
     })
     cancelEditDept.addEventListener('click',(e)=>{
       e.preventDefault()
-      editDeptForm.style.top = '1000vh'
-      editDeptForm.style.left = 0
+      editDeptForm.style.opacity = 0
+      editDeptForm.style.visibility = 'hidden'
     })
 
     //this are the event listeners for the edit of the staff section
@@ -178,15 +177,15 @@ async function fetchData() {
 
     Array.from(editStaff).forEach((staff)=>{
       staff.addEventListener('click',()=>{
-        editStaffForm.style.top = 0
-        editStaffForm.style.left = 0
+        editStaffForm.style.visibility = 'visible'
+        editStaffForm.style.opacity = 1
       })
     })
-
+    
     cancelEditStaff.addEventListener('click',(e)=>{
       e.preventDefault()
-      editStaffForm.style.top = '1000vh'
-      editStaffForm.style.left = 0
+      editStaffForm.style.opacity = 0
+      editStaffForm.style.visibility = 'hidden'
     })
 
   } catch (error) {

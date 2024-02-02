@@ -52,7 +52,24 @@ div.add-form{
     z-index: 10;
     transition: all 0.9s ease;
 }
-div.add-form form.edit-form{
+
+/* styling for the form that edit and delete a new department and staff */
+div.edit-form-div{
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    backdrop-filter: blur(4px) brightness(50%);
+    display: flex;
+    visibility: hidden;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.5s ease;
+}
+form.edit-form{
     padding: 4rem;
     border: none;
     border-radius: 18px;
@@ -97,24 +114,24 @@ button.btn-cancel{
 .btn-delete img{
     width: 30px;
 }
-div.add-form form.edit-form h5{
+form.edit-form h5{
     margin: 0 0 20px 0;
 }
-div.add-form form.edit-form input{
+form.edit-form input{
     width: 550px;
     border: 1px solid black;
     border-radius: 10px;
     padding: 8px 8px 10px 15px;
     font-size: 20px;
 }
-div.add-form form.edit-form .new-staff{
+form.edit-form .new-staff{
     display: flex;
     flex-direction: column;
 }
-div.add-form form.edit-form .new-staff *{
+form.edit-form .new-staff *{
     margin: 10px 0;
 }
-div.add-form form.edit-form select{
+form.edit-form select{
     display: block  ;
     border-radius: 10px;
     width: 550px;
@@ -144,6 +161,7 @@ button.add-new img{
 button.add-new:hover{
     transform: scale(1.25);
 }
+
 @media (max-width:770px) {
     button.add-new{
         bottom: 40px;
@@ -153,14 +171,14 @@ button.add-new:hover{
     button.add-new img{
         width: 40px;
     }
-    div.add-form form.edit-form{
+    form.edit-form{
         padding: 3rem;
     }
-    div.add-form form.edit-form input{
+    form.edit-form input{
         width: 450px;
         padding: 6px 6px 8px 13px;
     }
-    div.add-form form.edit-form select{
+    form.edit-form select{
         width: 450px;
         border: 1px solid black;
         padding: 6px 8px 13px;
@@ -175,15 +193,15 @@ button.add-new:hover{
     button.add-new img{
         width: 30px;
     }
-    div.add-form form.edit-form{
+    form.edit-form{
         padding: 1.2rem;
     }
-    div.add-form form.edit-form input{
+    form.edit-form input{
         width: 300px;
         padding: 4px 4px 5px 8px;
         font-size: 15px;
     }
-    div.add-form form.edit-form select{
+    form.edit-form select{
         width: 300px;
         padding: 4px 5px 8px;
         font-size: 15px;
