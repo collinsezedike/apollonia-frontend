@@ -40,7 +40,8 @@
 /* styling for the form that adds a new department and staff */
 div.add-form{
     position: fixed;
-    top: 1000vh;
+    opacity: 0;
+    top: 100vh;
     left: 0;
     height: 100vh;
     width: 100vw;
@@ -49,7 +50,7 @@ div.add-form{
     align-items: center;
     justify-content: center;
     z-index: 10;
-    transition: all 1s ease-in-out;
+    transition: all 0.9s ease;
 }
 div.add-form form.edit-form{
     padding: 4rem;
@@ -96,13 +97,6 @@ button.btn-cancel{
 .btn-delete img{
     width: 30px;
 }
-/* div.add-form form.edit-form label{
-    color: black;
-    font-size: 20px;
-    font-weight: 900;
-    font-family: serif;
-    margin: 10px 0 0 0;
-} */
 div.add-form form.edit-form h5{
     margin: 0 0 20px 0;
 }
@@ -149,4 +143,53 @@ button.add-new img{
 }
 button.add-new:hover{
     transform: scale(1.25);
+}
+@media (max-width:770px) {
+    button.add-new{
+        bottom: 40px;
+        right: 50px;
+        padding: 10px;
+    }
+    button.add-new img{
+        width: 40px;
+    }
+    div.add-form form.edit-form{
+        padding: 3rem;
+    }
+    div.add-form form.edit-form input{
+        width: 450px;
+        padding: 6px 6px 8px 13px;
+    }
+    div.add-form form.edit-form select{
+        width: 450px;
+        border: 1px solid black;
+        padding: 6px 8px 13px;
+    }
+}
+
+@media (max-width:430px) {
+    button.add-new{
+        bottom: 30px;
+        right: 30px;
+    }
+    button.add-new img{
+        width: 30px;
+    }
+    div.add-form form.edit-form{
+        padding: 1.2rem;
+    }
+    div.add-form form.edit-form input{
+        width: 300px;
+        padding: 4px 4px 5px 8px;
+        font-size: 15px;
+    }
+    div.add-form form.edit-form select{
+        width: 300px;
+        padding: 4px 5px 8px;
+        font-size: 15px;
+    }
+    div.buttons-div *{
+        padding: 10px;
+        font-size: 15px;
+    }
 }
