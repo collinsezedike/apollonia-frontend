@@ -6,6 +6,8 @@ const addNewStaff = document.getElementById('add-new-staff')
 const deptOption = document.getElementById('dept-option')
 const deleteDeptName = document.getElementById('delete-dept-name')
 const editDeptName = document.getElementById('edit-dept-name')
+const deleteStaffName = document.getElementById('delete-staff-name')
+const editStaffName = document.getElementById('edit-staff-name')
 
 //this are the event listeners for the department section
 const addDept = document.getElementById('add-dept')
@@ -144,8 +146,8 @@ async function fetchData() {
         `
           <h5 class="card-title">${staff.name} ${staff.surname}</h5>
           <div class="card-buttons-div">
-            <button id=${staff._id} class="edit-staff-btn btn-edit">Edit</button>
-            <button id=${staff._id} class="btn-delete">
+            <button id=${staff._id} name=${staff.name} class="edit-staff-btn btn-edit">Edit</button>
+            <button id=${staff._id} name=${staff.name} class="delete-staff-btn btn-delete">
               <img src="./img/bx-trash.png" />
             </button>
           </div>
@@ -200,6 +202,7 @@ async function fetchData() {
       staff.addEventListener('click',()=>{
         editStaffForm.style.visibility = 'visible'
         editStaffForm.style.opacity = 1
+        editStaffName.innerText =`"${staff.getAttribute('name')}" `
       })
     })
     
@@ -207,6 +210,24 @@ async function fetchData() {
       e.preventDefault()
       editStaffForm.style.opacity = 0
       editStaffForm.style.visibility = 'hidden'
+    })
+
+    //this are the event listeners for the delete of the staff section
+    const deleteStaffBtn = document.getElementsByClassName('delete-staff-btn')
+    const deleteStaffForm = document.getElementById('delete-staff-form')
+    const cancelDeleteStaff = document.getElementById('cancel-delete-staff')
+
+    Array.from(deleteStaffBtn).forEach((staff)=>{
+      staff.addEventListener('click',()=>{
+        deleteStaffForm.style.visibility = 'visible'
+        deleteStaffForm.style.opacity = 1
+        deleteStaffName.innerText =`"${staff.getAttribute('name')}" `
+      })
+    })
+    cancelDeleteStaff.addEventListener('click',(e)=>{
+      e.preventDefault()
+      deleteStaffForm.style.opacity = 0
+      deleteStaffForm.style.visibility = 'hidden'
     })
 
   } catch (error) {

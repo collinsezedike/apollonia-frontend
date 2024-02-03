@@ -115,7 +115,7 @@
             <!-- this is the form to edit staff data -->
             <div id="edit-staff-form" class="edit-form-div">
                 <form class="edit-form" id="edit-staff">
-                    <h5>Edit Staff Data</h5>
+                    <h5>Edit <span id="edit-staff-name"></span> Data</h5>
                     <div class="new-staff">
                         <input type="text" id="edit-staff-first-name" placeholder="First name">
                         <input type="text" id="edit-staff-surname" placeholder="Surname">
@@ -126,6 +126,17 @@
                     <div class="buttons-div">
                         <button type="submit" class="btn-success">Edit</button>
                         <button id="cancel-edit-staff" class="btn-cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- this is the form to delete staff data -->
+            <div id="delete-staff-form" class="edit-form-div">
+                <form class="edit-form" id="delete-staff">
+                    <h5>Are You Sure You Want To Delete <span id="delete-staff-name"></span></h5>
+                    <div class="buttons-div">
+                        <button type="submit" class="btn-cancel">Delete</button>
+                        <button id="cancel-delete-staff" class="btn-success">Cancel</button>
                     </div>
                 </form>
             </div>
