@@ -8,6 +8,10 @@ const deleteDeptName = document.getElementById('delete-dept-name')
 const editDeptName = document.getElementById('edit-dept-name')
 const deleteStaffName = document.getElementById('delete-staff-name')
 const editStaffName = document.getElementById('edit-staff-name')
+const deleteStaffBtn = document.getElementById('dlt-staff-btn')
+
+//variables
+ var dltStaffId
 
 //this are the event listeners for the department section
 const addDept = document.getElementById('add-dept')
@@ -222,12 +226,14 @@ async function fetchData() {
         deleteStaffForm.style.visibility = 'visible'
         deleteStaffForm.style.opacity = 1
         deleteStaffName.innerText =`"${staff.getAttribute('name')}" `
+        dltStaffId = staff.getAttribute('id')
       })
     })
     cancelDeleteStaff.addEventListener('click',(e)=>{
       e.preventDefault()
       deleteStaffForm.style.opacity = 0
       deleteStaffForm.style.visibility = 'hidden'
+      dltStaffId = ''
     })
 
   } catch (error) {
@@ -268,7 +274,6 @@ addNewStaff.addEventListener('submit',async(e)=>{
   const name = document.getElementById('staff-first-name').value
   const surname = document.getElementById('staff-surname').value
   const deptId = document.getElementById('dept-option').value
-  console.log(deptId)
 
   const URL = 'https://apollonia.onrender.com/api/v1/staffs/';
 
@@ -290,6 +295,55 @@ addNewStaff.addEventListener('submit',async(e)=>{
     // Make the post request
     await fetch(URL, options)
 
+    window.location.reload()
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error('Error:', error.message);
+  }
+})
+
+
+// //this function adds new dept
+// addNewDept.addEventListener('submit',async(e)=>{
+//   e.preventDefault()
+//   const name = document.getElementById('department-name').value
+
+//   const URL = 'https://apollonia.onrender.com/api/v1/departments/';
+
+//   const options = {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({name})
+//   }
+
+//   try {
+//     // Make the post request
+//     await fetch(URL, options)
+
+//     window.location.reload()
+//   } catch (error) {
+//     // Handle any errors that occurred during the fetch
+//     console.error('Error:', error.message);
+//   }
+// })
+
+//this function delete a staff
+deleteStaffBtn.addEventListener('click',async(e)=>{
+  e.preventDefault()
+  const URL = `https://apollonia.onrender.com/api/v1/staffs/${dltStaffId}`
+  console.log(`clicking ${dltStaffId}`)
+  const options = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  }
+
+  try {
+    // Make the delete request
+    await fetch(URL, options)
     window.location.reload()
   } catch (error) {
     // Handle any errors that occurred during the fetch
