@@ -1,91 +1,63 @@
 // scripts.js
-const deptContainer = document.getElementById('departments')
-const staffContainer = document.getElementById('staff')
-const addNewDept = document.getElementById('add-new-dept')
-const addNewStaff = document.getElementById('add-new-staff')
-const deptOption = document.getElementById('dept-option')
-const editDeptOption = document.getElementById('edit-dept-option')
-const deleteDeptName = document.getElementById('delete-dept-name')
-const deleteStaffName = document.getElementById('delete-staff-name')
-const editStaffName = document.getElementById('edit-staff-name')
-const editDeptInput = document.getElementById('edit-dept-input')
-const deleteDeptBtn = document.getElementById('dlt-dept-btn')
-const deleteStaffBtn = document.getElementById('dlt-staff-btn')
+  const deptContainer = document.getElementById('departments')
+  const staffContainer = document.getElementById('staff')
+  const addNewDept = document.getElementById('add-new-dept')
+  const addNewStaff = document.getElementById('add-new-staff')
+  const deptOption = document.getElementById('dept-option')
+  const editDeptOption = document.getElementById('edit-dept-option')
+  const deleteDeptName = document.getElementById('delete-dept-name')
+  const deleteStaffName = document.getElementById('delete-staff-name')
+  const editStaffName = document.getElementById('edit-staff-name')
+  const editDeptInput = document.getElementById('edit-dept-input')
+  const deleteDeptBtn = document.getElementById('dlt-dept-btn')
+  const deleteStaffBtn = document.getElementById('dlt-staff-btn')
 
 
 //variables
-var deptId  //will hold the id for the department
- var staffId  //will hold the id for the staff
+  var deptId  //will hold the id for the department
+  var staffId  //will hold the id for the staff
 
-//this are the event listeners for the department section
-const addDept = document.getElementById('add-dept')
-const deptForm = document.getElementById('dept-form')
-const cancelDept = document.getElementById('cancel-dept')
-addDept.addEventListener('click',()=>{
-  deptForm.style.top = 0
-  deptForm.style.left = 0  
-  deptForm.style.opacity = 1  
-})
-cancelDept.addEventListener('click',(e)=>{
-  e.preventDefault()
-  deptForm.style.top = '100vh'
-  deptForm.style.left = 0
-  deptForm.style.opacity = 0
-})
+
+// Function to handle opening and closing the add department form
+  const toggleAddForm = (top,opacity,id)=>{
+    const form = document.getElementById(id)
+    form.style.top = top
+    form.style.opacity = opacity
+  }
+//event listeners for the add department button
+  const addDept = document.getElementById('add-dept')
+  const cancelDept = document.getElementById('cancel-dept')
+  addDept.addEventListener('click', ()=>toggleAddForm(0 , 1 , 'dept-form'))
+  cancelDept.addEventListener('click',()=>toggleAddForm('100vh' , 0 , 'dept-form'))
 
 //this are the event listeners for the staff section
-const addStaff = document.getElementById('add-staff')
-const staffForm = document.getElementById('staff-form')
-const cancelStaff = document.getElementById('cancel-staff')
-addStaff.addEventListener('click',()=>{
-  staffForm.style.top = 0
-  staffForm.style.left = 0
-  staffForm.style.opacity = 1
-})
-cancelStaff.addEventListener('click',(e)=>{
-  e.preventDefault()
-  staffForm.style.top = '100vh'
-  staffForm.style.left = 0
-  staffForm.style.opacity = 0
-})
+  const addStaff = document.getElementById('add-staff')
+  const cancelStaff = document.getElementById('cancel-staff')
+  addStaff.addEventListener('click',()=>toggleAddForm(0 , 1 , 'staff-form'))
+  cancelStaff.addEventListener('click',()=>toggleAddForm('100vh' , 0 , 'staff-form'))
 
 // Function to show the selected tab content and hide others
-function openTab(evt, tabName) {
-  var i, tabcontent;
+  const openTab = (tabName)=>{
+    // Hide all tab content
+      const tabcontent = document.querySelectorAll(".tabcontent")
+      for (var i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none"
+      }
 
-  // Hide all tab content
-  tabcontent = document.querySelectorAll(".tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none"
-  }
-
-  // Display the selected tab content and set 'active' class to the clicked tab link
-  document.getElementById(tabName).style.display = 'grid'
-  document.getElementById(tabName).classList.remove("d-none")
-}
+    // Display the selected tab content and set 'active' class to the clicked tab link
+      document.getElementById(tabName).style.display = 'grid'
+      document.getElementById(tabName).classList.remove("d-none")
+    }
 
 // Get all elements with class=".nav-link" and attach a click event listener
-var tabLinks = document.querySelectorAll(".nav-link")
-for (var i = 0; i < tabLinks.length; i++) {
-  tabLinks[i].addEventListener("click", function(event) {
-    event.preventDefault()
-    var tabName = this.getAttribute("href").substring(1)
-    openTab(event, tabName)
-  })
-}
-
-function open_sidebar() {
-  document.getElementById("main").style.marginLeft = "35%";
-  document.getElementById("side-bar").style.width = "30%";
-  document.getElementById("side-bar").classList.remove("d-none");
-  document.getElementById("side-bar").style.display = "block";
-  document.getElementById("openNav").style.display = 'none';
-}
-function close_sidebar() {
-  document.getElementById("main").style.marginLeft = "0%";
-  document.getElementById("side-bar").style.display = "none";
-  document.getElementById("openNav").style.display = "inline-block";
-}
+  const tabLinks = document.querySelectorAll(".nav-link")
+  for (var i = 0; i < tabLinks.length; i++) {
+    tabLinks[i].addEventListener("click", function(e) {
+      e.preventDefault()
+      var tabName = this.getAttribute("href").substring(1)
+      openTab(tabName)
+    })
+  }
 
 async function fetchData() {
   try {
@@ -93,14 +65,19 @@ async function fetchData() {
     const staffData = await fetch('https://apollonia.onrender.com/api/v1/staffs/')
     const deptJson = await deptData.json()
     const staffJson = await staffData.json()
-    if(deptJson.data.length < 1){
+
+    //function to handle no department or staff
+      const noReturnData = (data , container)=>{
         // Create a new card element
-        const card = document.createElement("p")
-        card.classList.add("no-info")
+          const card = document.createElement("p")
+          card.classList.add("no-info")
         // Append content to the card
-        card.innerHTML = `<p> No Department Found </p>`
+          card.innerHTML = `<p> No ${data} Found </p>`
         // Append the newly created p to the container
-        deptContainer.appendChild(card)
+          container.appendChild(card)
+      }
+    if(deptJson.data.length < 1){
+      noReturnData('Department', deptContainer)
     }
     else{
       deptJson.data.forEach((dept)=>{
@@ -140,13 +117,7 @@ async function fetchData() {
     }
 
     if(staffJson.data.length < 1){
-      // Create a new card element
-      const card = document.createElement("p")
-      card.classList.add("no-info")
-      // Append content to the card
-      card.innerHTML = `<p>No Staff Found </p>`
-      // Append the newly created p to the container
-      staffContainer.appendChild(card)
+      noReturnData('staff',staffContainer)
     }
     else{
       staffJson.data.forEach((staff)=>{
@@ -169,26 +140,29 @@ async function fetchData() {
       })
     }
 
-    //this are the event listeners for the edit of the department section
-    const editDeptBtn = document.getElementsByClassName('edit-dept-btn')
-    const editDeptForm = document.getElementById('edit-dept-form')
-    const cancelEditDept = document.getElementById('cancel-edit-dept')
+    //This function will handle all the edit ,cancel and delete buttons
+      const editCancelAndDeleteBtns = (id , visibility , opacity)=>{
+        const editForm = document.getElementById(id)
+        editForm.style.visibility = visibility
+        editForm.style.opacity = opacity
+      }
 
-    Array.from(editDeptBtn).forEach((dept)=>{
-      dept.addEventListener('click',()=>{
-        editDeptForm.style.visibility = 'visible'
-        editDeptForm.style.opacity = 1
-        document.getElementById('edit-dept-name').innerText = `"${dept.getAttribute('name')}" `
-        editDeptInput.setAttribute('placeholder',dept.getAttribute('name'))
-        deptId = dept.getAttribute('id')
+      //this are the event listeners for the edit of the department section
+      const editDeptBtn = document.getElementsByClassName('edit-dept-btn')
+      const cancelEditDept = document.getElementById('cancel-edit-dept')
+      
+      Array.from(editDeptBtn).forEach((dept)=>{
+        dept.addEventListener('click',()=>{
+          editCancelAndDeleteBtns('edit-dept-form' , 'visible' , 1)
+          document.getElementById('edit-dept-name').innerText = `"${dept.getAttribute('name')}" `
+          editDeptInput.setAttribute('placeholder',dept.getAttribute('name'))
+          deptId = dept.getAttribute('id')
+        })
       })
-    })
-    cancelEditDept.addEventListener('click',(e)=>{
-      e.preventDefault()
-      editDeptForm.style.opacity = 0
-      editDeptForm.style.visibility = 'hidden'
-      deptId = ''
-    })
+      cancelEditDept.addEventListener('click',()=>{
+        editCancelAndDeleteBtns('edit-dept-form' , 'hidden' , 0)
+        deptId = ''
+      })
 
     //this are the event listeners for the delete of the department section
     const deleteDeptBtn = document.getElementsByClassName('delete-dept-btn')
@@ -197,16 +171,13 @@ async function fetchData() {
 
     Array.from(deleteDeptBtn).forEach((dept)=>{
       dept.addEventListener('click',()=>{
-        deleteDeptForm.style.visibility = 'visible'
-        deleteDeptForm.style.opacity = 1
+        editCancelAndDeleteBtns('delete-dept-form' , 'visible' , 1)
         deleteDeptName.innerText =`"${dept.getAttribute('name')}" `
         deptId = dept.getAttribute('id')
       })
     })
     cancelDeleteDept.addEventListener('click',(e)=>{
-      e.preventDefault()
-      deleteDeptForm.style.opacity = 0
-      deleteDeptForm.style.visibility = 'hidden'
+      editCancelAndDeleteBtns('delete-dept-form' , 'hidden' , 0)
       deptId = ''
     })
 
