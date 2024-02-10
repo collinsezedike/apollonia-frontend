@@ -4,16 +4,18 @@ const staffContainer = document.getElementById('staff')
 const addNewDept = document.getElementById('add-new-dept')
 const addNewStaff = document.getElementById('add-new-staff')
 const deptOption = document.getElementById('dept-option')
+const editDeptOption = document.getElementById('edit-dept-option')
 const deleteDeptName = document.getElementById('delete-dept-name')
-const editDeptName = document.getElementById('edit-dept-name')
 const deleteStaffName = document.getElementById('delete-staff-name')
 const editStaffName = document.getElementById('edit-staff-name')
+const editDeptInput = document.getElementById('edit-dept-input')
 const deleteDeptBtn = document.getElementById('dlt-dept-btn')
 const deleteStaffBtn = document.getElementById('dlt-staff-btn')
 
+
 //variables
- var dltStaffId  //will hold the id for the staff to be deleted
- var dltDeptId  //will hold the id for the department to be deleted
+var deptId  //will hold the id for the department
+ var staffId  //will hold the id for the staff
 
 //this are the event listeners for the department section
 const addDept = document.getElementById('add-dept')
@@ -87,24 +89,24 @@ function close_sidebar() {
 
 async function fetchData() {
   try {
-    const deptData = await fetch('https://apollonia.onrender.com/api/v1/departments/');
-    const staffData = await fetch('https://apollonia.onrender.com/api/v1/staffs/');
-    const deptJson = await deptData.json();
-    const staffJson = await staffData.json();
+    const deptData = await fetch('https://apollonia.onrender.com/api/v1/departments/')
+    const staffData = await fetch('https://apollonia.onrender.com/api/v1/staffs/')
+    const deptJson = await deptData.json()
+    const staffJson = await staffData.json()
     if(deptJson.data.length < 1){
         // Create a new card element
-        const card = document.createElement("p");
-        card.classList.add("no-info");
+        const card = document.createElement("p")
+        card.classList.add("no-info")
         // Append content to the card
         card.innerHTML = `<p> No Department Found </p>`
         // Append the newly created p to the container
-        deptContainer.appendChild(card);
+        deptContainer.appendChild(card)
     }
     else{
       deptJson.data.forEach((dept)=>{
         // Create a new card element
-        const card = document.createElement("div");
-        card.classList.add("card");
+        const card = document.createElement("div")
+        card.classList.add("card")
         // Append content to the card
         card.innerHTML = 
         `
@@ -124,11 +126,15 @@ async function fetchData() {
       deptJson.data.forEach((dept)=>{
         // Create a the department option
         const option = document.createElement("option")
+        const editOption = document.createElement("option")
         option.classList.add("dept-option")
         option.setAttribute('value',dept._id)
+        editOption.setAttribute('value',dept._id)
         // Append content to the the select 
         option.innerText = dept.name
+        editOption.innerText = dept.name
         // Append the newly created child
+        editDeptOption.appendChild(editOption)
         deptOption.appendChild(option)
       })
     }
@@ -172,13 +178,16 @@ async function fetchData() {
       dept.addEventListener('click',()=>{
         editDeptForm.style.visibility = 'visible'
         editDeptForm.style.opacity = 1
-        editDeptName.innerText = `"${dept.getAttribute('name')}" `
+        document.getElementById('edit-dept-name').innerText = `"${dept.getAttribute('name')}" `
+        editDeptInput.setAttribute('placeholder',dept.getAttribute('name'))
+        deptId = dept.getAttribute('id')
       })
     })
     cancelEditDept.addEventListener('click',(e)=>{
       e.preventDefault()
       editDeptForm.style.opacity = 0
       editDeptForm.style.visibility = 'hidden'
+      deptId = ''
     })
 
     //this are the event listeners for the delete of the department section
@@ -191,14 +200,14 @@ async function fetchData() {
         deleteDeptForm.style.visibility = 'visible'
         deleteDeptForm.style.opacity = 1
         deleteDeptName.innerText =`"${dept.getAttribute('name')}" `
-        dltDeptId = dept.getAttribute('id')
+        deptId = dept.getAttribute('id')
       })
     })
     cancelDeleteDept.addEventListener('click',(e)=>{
       e.preventDefault()
       deleteDeptForm.style.opacity = 0
       deleteDeptForm.style.visibility = 'hidden'
-      dltDeptId = ''
+      deptId = ''
     })
 
     //this are the event listeners for the edit of the staff section
@@ -211,6 +220,7 @@ async function fetchData() {
         editStaffForm.style.visibility = 'visible'
         editStaffForm.style.opacity = 1
         editStaffName.innerText =`"${staff.getAttribute('name')}" `
+        staffId = staff.getAttribute('id')
       })
     })
     
@@ -218,6 +228,7 @@ async function fetchData() {
       e.preventDefault()
       editStaffForm.style.opacity = 0
       editStaffForm.style.visibility = 'hidden'
+      staffId = ''
     })
 
     //this are the event listeners for the delete of the staff section
@@ -230,14 +241,14 @@ async function fetchData() {
         deleteStaffForm.style.visibility = 'visible'
         deleteStaffForm.style.opacity = 1
         deleteStaffName.innerText =`"${staff.getAttribute('name')}" `
-        dltStaffId = staff.getAttribute('id')
+        staffId = staff.getAttribute('id')
       })
     })
     cancelDeleteStaff.addEventListener('click',(e)=>{
       e.preventDefault()
       deleteStaffForm.style.opacity = 0
       deleteStaffForm.style.visibility = 'hidden'
-      dltStaffId = ''
+      staffId = ''
     })
 
   } catch (error) {
@@ -307,12 +318,76 @@ addNewStaff.addEventListener('submit',async(e)=>{
 })
 
 
+//this function update a dept
+const updateDept = document.getElementById('update-dept')
+updateDept.addEventListener('click',async(e)=>{
+  e.preventDefault()
+
+  const name = editDeptInput.value
+
+  const URL = `https://apollonia.onrender.com/api/v1/departments/${deptId}`
+
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({name})
+  }
+
+  try {
+    // Make the put request
+    await fetch(URL, options)
+
+    window.location.reload()
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error('Error:', error.message);
+  }
+})
+
+//this function update a staff
+const updateStaff = document.getElementById('update-staff')
+updateStaff.addEventListener('click',async(e)=>{
+  e.preventDefault()
+
+  const name = document.getElementById('edit-staff-first-name').value
+  const surname = document.getElementById('edit-staff-surname').value
+  const deptId = document.getElementById('edit-dept-option').value
+
+  const URL = `https://apollonia.onrender.com/api/v1/staffs/${staffId}`
+
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(
+      {
+        name,
+        surname,
+        department_id:deptId
+      }
+    )
+  }
+
+  try {
+    // Make the put request
+    await fetch(URL, options)
+
+    window.location.reload()
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error('Error:', error.message);
+  }
+})
+
+
 //this function delete a dept
 deleteDeptBtn.addEventListener('click',async(e)=>{
   e.preventDefault()
-  const URL = `https://apollonia.onrender.com/api/v1/departments/${dltDeptId}`;
+  const URL = `https://apollonia.onrender.com/api/v1/departments/${deptId}`;
 
-  console.log(`clicking ${dltDeptId}`)
   const options = {
     method: 'DELETE',
     headers: {
@@ -334,7 +409,7 @@ deleteDeptBtn.addEventListener('click',async(e)=>{
 //this function delete a staff
 deleteStaffBtn.addEventListener('click',async(e)=>{
   e.preventDefault()
-  const URL = `https://apollonia.onrender.com/api/v1/staffs/${dltStaffId}`
+  const URL = `https://apollonia.onrender.com/api/v1/staffs/${staffId}`
   const options = {
     method: 'DELETE',
     headers: {
