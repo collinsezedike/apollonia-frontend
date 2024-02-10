@@ -1,6 +1,6 @@
 // scripts.js
-  const deptContainer = document.getElementById('departments')
-  const staffContainer = document.getElementById('staff')
+  const deptContainer = document.getElementById('dept-container')
+  const staffContainer = document.getElementById('staff-container')
   const deptOption = document.getElementById('dept-option')
   const editDeptOption = document.getElementById('edit-dept-option')
   const deleteDeptName = document.getElementById('delete-dept-name')
@@ -43,7 +43,7 @@
       }
 
     // Display the selected tab content and set 'active' class to the clicked tab link
-      document.getElementById(tabName).style.display = 'grid'
+      document.getElementById(tabName).style.display = 'block'
       document.getElementById(tabName).classList.remove("d-none")
     }
 
@@ -56,6 +56,14 @@
       openTab(tabName)
     })
   }
+
+//This function will handle all the edit ,cancel and delete buttons
+  const editCancelAndDeleteBtns = (id , visibility , opacity)=>{
+    const editForm = document.getElementById(id)
+    editForm.style.visibility = visibility
+    editForm.style.opacity = opacity
+  }
+
 
 async function fetchData() {
   try {
@@ -75,9 +83,11 @@ async function fetchData() {
           container.appendChild(card)
       }
     if(deptJson.data.length < 1){
+      deptContainer.innerHTML = ''
       noReturnData('Department', deptContainer)
     }
     else{
+      deptContainer.innerHTML = ''
       deptJson.data.forEach((dept)=>{
         // Create a new card element
         const card = document.createElement("div")
@@ -97,7 +107,8 @@ async function fetchData() {
         // Append the newly created card to the container
         deptContainer.appendChild(card);
       })
-
+      editDeptOption.innerHTML = ''
+      deptOption.innerHTML = ''
       deptJson.data.forEach((dept)=>{
         // Create a the department option
         const option = document.createElement("option")
@@ -115,9 +126,11 @@ async function fetchData() {
     }
 
     if(staffJson.data.length < 1){
+      staffContainer.innerHTML = ''
       noReturnData('staff',staffContainer)
     }
     else{
+      staffContainer.innerHTML = ''
       staffJson.data.forEach((staff)=>{
         // Create a new card element
         const card = document.createElement("div")
@@ -138,13 +151,6 @@ async function fetchData() {
       })
     }
 
-    //This function will handle all the edit ,cancel and delete buttons
-      const editCancelAndDeleteBtns = (id , visibility , opacity)=>{
-        const editForm = document.getElementById(id)
-        editForm.style.visibility = visibility
-        editForm.style.opacity = opacity
-      }
-
       //this are the event listeners for the edit of the department section
       const editDeptBtn = document.getElementsByClassName('edit-dept-btn')
       const cancelEditDept = document.getElementById('cancel-edit-dept')
@@ -157,7 +163,8 @@ async function fetchData() {
           deptId = dept.getAttribute('id')
         })
       })
-      cancelEditDept.addEventListener('click',()=>{
+      cancelEditDept.addEventListener('click',(e)=>{
+        e.preventDefault()
         editCancelAndDeleteBtns('edit-dept-form' , 'hidden' , 0)
         deptId = ''
       })
@@ -174,6 +181,7 @@ async function fetchData() {
       })
     })
     cancelDeleteDept.addEventListener('click',(e)=>{
+      e.preventDefault()
       editCancelAndDeleteBtns('delete-dept-form' , 'hidden' , 0)
       deptId = ''
     })
@@ -190,7 +198,8 @@ async function fetchData() {
       })
     })
     
-    cancelEditStaff.addEventListener('click',()=>{
+    cancelEditStaff.addEventListener('click',(e)=>{
+      e.preventDefault()
       editCancelAndDeleteBtns('edit-staff-form' , 'hidden' , 0)
       staffId = ''
     })
@@ -207,6 +216,7 @@ async function fetchData() {
       })
     })
     cancelDeleteStaff.addEventListener('click',(e)=>{
+      e.preventDefault()
       editCancelAndDeleteBtns('delete-staff-form' , 'hidden' , 0)
       staffId = ''
     })
@@ -232,8 +242,7 @@ fetchData()
     try {
       // Make the post request
       await fetch(uri, options)
-  
-      window.location.reload()
+      fetchData()
     } catch (error) {
       // Handle any errors that occurred during the fetch
       console.error('Error:', error.message);
@@ -248,6 +257,7 @@ fetchData()
     }
     const URL = 'https://apollonia.onrender.com/api/v1/departments/';
     crudHandler(e , req , 'POST' , URL)
+    toggleAddForm('100vh' , 0 , 'dept-form')
   })
   
   //this function adds new staff
@@ -261,6 +271,7 @@ fetchData()
     }
     const URL = 'https://apollonia.onrender.com/api/v1/staffs/'
     crudHandler(e , req , 'POST' , URL)
+    toggleAddForm('100vh' , 0 , 'staff-form')
   })
   
   
@@ -273,6 +284,7 @@ fetchData()
     } 
     const URL = `https://apollonia.onrender.com/api/v1/departments/${deptId}`
     crudHandler(e , req , 'PUT' , URL)
+    editCancelAndDeleteBtns('edit-dept-form' , 'hidden' , 0)
   })
   
   //this function update a staff
@@ -285,8 +297,8 @@ fetchData()
       department_id : document.getElementById('edit-dept-option').value
     }
     const URL = `https://apollonia.onrender.com/api/v1/staffs/${staffId}`
-    
     crudHandler(e , req , 'PUT' , URL)
+    editCancelAndDeleteBtns('edit-staff-form' , 'hidden' , 0)
   })
   
 //This function is for the delete operations
@@ -303,18 +315,20 @@ fetchData()
     try {
       // Make the delete request
         await fetch(uri, options)
-        window.location.reload()
-    } catch (error) {
-    // Handle any errors that occurred during the fetch
-      console.error('Error:', error.message);
+        fetchData()
+      } catch (error) {
+        // Handle any errors that occurred during the fetch
+      console.error('Error:', error.message)
     }
   }
 
 //this function delete a dept
-  deleteDeptBtn.addEventListener('click',async(e)=>{
+deleteDeptBtn.addEventListener('click',async(e)=>{
 
-    const URL = `https://apollonia.onrender.com/api/v1/departments/${deptId}`;
+    const URL = `https://apollonia.onrender.com/api/v1/departments/${deptId}`
     deleteHandler(e,URL)
+    editCancelAndDeleteBtns('delete-dept-form' , 'hidden' , 0)
+    deptId = ''
   })
 
 //this function delete a staff
@@ -322,4 +336,6 @@ fetchData()
 
     const URL = `https://apollonia.onrender.com/api/v1/staffs/${staffId}`
     deleteHandler(e,URL)
+    editCancelAndDeleteBtns('delete-staff-form' , 'hidden' , 0)
+    staffId = ''
   })
