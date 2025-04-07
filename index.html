@@ -44,7 +44,7 @@
 
         <!-- Departments Tab Content -->
         <div id="departments" class="tabcontent d-none">
-
+            <div id="dept-container"></div>
             <!-- this is the form to add new department -->
             <div id="dept-form" class="add-form">
                 <form class="edit-form" id="add-new-dept">
@@ -60,15 +60,26 @@
             </div>
 
             <!-- this is the form to edit department data -->
-            <div id="edit-dept-form" class="add-form">
+            <div id="edit-dept-form" class="edit-form-div">
                 <form class="edit-form" id="edit-dept">
-                    <h5>Edit Department Data</h5>
+                    <h5>Edit <span id="edit-dept-name"></span> Department</h5>
                     <div class="mb-3">
-                        <input type="text" id="department-name" placeholder="Department name"/>
+                        <input type="text" id="edit-dept-input" placeholder="Department name"/>
                     </div>
                     <div class="buttons-div">
-                        <button type="submit" class="btn-success">Add</button>
+                        <button id="update-dept" type="submit" class="btn-success">Edit</button>
                         <button id="cancel-edit-dept" class="btn-cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- this is the form to delete department data -->
+            <div id="delete-dept-form" class="edit-form-div">
+                <form class="edit-form" id="delete-dept">
+                    <h5>Are You Sure You Want To Delete <span id="delete-dept-name"></span> Department</h5>
+                    <div class="buttons-div">
+                        <button type="submit" id="dlt-dept-btn" class="btn-cancel">Delete</button>
+                        <button id="cancel-delete-dept" class="btn-success">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -82,7 +93,7 @@
 
         <!-- Staff Tab Content -->
         <div id="staff" class="tabcontent d-none">
-
+            <div id="staff-container"></div>
             <!-- this is the form to add new staff -->
             <div id="staff-form" class="add-form">
                 <form class="edit-form" id="add-new-staff">
@@ -102,9 +113,9 @@
             </div>
 
             <!-- this is the form to edit staff data -->
-            <div id="edit-staff-form" class="add-form">
+            <div id="edit-staff-form" class="edit-form-div">
                 <form class="edit-form" id="edit-staff">
-                    <h5>Edit Staff Data</h5>
+                    <h5>Edit <span id="edit-staff-name"></span> Data</h5>
                     <div class="new-staff">
                         <input type="text" id="edit-staff-first-name" placeholder="First name">
                         <input type="text" id="edit-staff-surname" placeholder="Surname">
@@ -113,8 +124,19 @@
                         </select>
                     </div>
                     <div class="buttons-div">
-                        <button type="submit" class="btn-success">Add</button>
+                        <button id="update-staff" type="submit" class="btn-success">Edit</button>
                         <button id="cancel-edit-staff" class="btn-cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- this is the form to delete staff data -->
+            <div id="delete-staff-form" class="edit-form-div">
+                <form class="edit-form" id="delete-staff">
+                    <h5>Are You Sure You Want To Delete <span id="delete-staff-name"></span></h5>
+                    <div class="buttons-div">
+                        <button type="submit" id="dlt-staff-btn" class="btn-cancel">Delete</button>
+                        <button id="cancel-delete-staff" class="btn-success">Cancel</button>
                     </div>
                 </form>
             </div>
