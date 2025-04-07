@@ -139,6 +139,7 @@ async function fetchData() {
         card.innerHTML = 
         `
           <h5 class="card-title">${staff.name} ${staff.surname}</h5>
+          <h5 class="card-title">${staff.department.name}</h5>
           <div class="card-buttons-div">
             <button id=${staff._id} name=${staff.name} class="edit-staff-btn btn-edit">Edit</button>
             <button id=${staff._id} name=${staff.name} class="delete-staff-btn btn-delete">
@@ -185,7 +186,6 @@ async function fetchData() {
       editCancelAndDeleteBtns('delete-dept-form' , 'hidden' , 0)
       deptId = ''
     })
-    
     
     //this are the event listeners for the edit of the staff section
     const editStaff = document.getElementsByClassName('edit-staff-btn')
