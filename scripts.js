@@ -186,6 +186,7 @@ async function fetchData() {
       deptId = ''
     })
     
+    
     //this are the event listeners for the edit of the staff section
     const editStaff = document.getElementsByClassName('edit-staff-btn')
     const cancelEditStaff = document.getElementById('cancel-edit-staff')
