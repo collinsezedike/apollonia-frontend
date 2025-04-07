@@ -96,7 +96,6 @@ async function fetchData() {
         card.innerHTML = 
         `
           <h5 >${dept.name}</h5>
-          <h5>Staff: ${dept.staff_count == undefined ? '0' : dept.staff_count}</h5>
           <div class="card-buttons-div">
             <button id=${dept._id} name= ${dept.name} class="edit-dept-btn btn-edit">Edit</button>
             <button id=${dept._id} name= ${dept.name} class="delete-dept-btn btn-delete">
@@ -105,7 +104,7 @@ async function fetchData() {
           </div>
         `
         // Append the newly created card to the container
-        deptContainer.appendChild(card);
+        deptContainer.appendChild(card)
       })
       editDeptOption.innerHTML = ''
       deptOption.innerHTML = ''
@@ -139,6 +138,7 @@ async function fetchData() {
         card.innerHTML = 
         `
           <h5 class="card-title">${staff.name} ${staff.surname}</h5>
+          <h5 class="card-title">${staff.department.name}</h5>
           <div class="card-buttons-div">
             <button id=${staff._id} name=${staff.name} class="edit-staff-btn btn-edit">Edit</button>
             <button id=${staff._id} name=${staff.name} class="delete-staff-btn btn-delete">
@@ -186,15 +186,18 @@ async function fetchData() {
       deptId = ''
     })
     
-    
     //this are the event listeners for the edit of the staff section
     const editStaff = document.getElementsByClassName('edit-staff-btn')
+    const staffFirstNameField = document.getElementById('edit-staff-first-name')
+    const staffSurnameField = document.getElementById('edit-staff-surname')
     const cancelEditStaff = document.getElementById('cancel-edit-staff')
 
     Array.from(editStaff).forEach((staff)=>{
       staff.addEventListener('click',()=>{
         editCancelAndDeleteBtns('edit-staff-form' , 'visible' , 1)
         editStaffName.innerText =`"${staff.getAttribute('name')}" `
+        console.log(staff.attributes)
+        staffFirstNameField.setAttribute('placeholder',staff.getAttribute('name'))
         staffId = staff.getAttribute('id')
       })
     })
