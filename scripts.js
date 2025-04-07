@@ -96,7 +96,6 @@ async function fetchData() {
         card.innerHTML = 
         `
           <h5 >${dept.name}</h5>
-          <h5>Staff: ${dept.staff_count == undefined ? '0' : dept.staff_count}</h5>
           <div class="card-buttons-div">
             <button id=${dept._id} name= ${dept.name} class="edit-dept-btn btn-edit">Edit</button>
             <button id=${dept._id} name= ${dept.name} class="delete-dept-btn btn-delete">
